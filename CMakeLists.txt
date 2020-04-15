@@ -16,7 +16,7 @@ set(CMAKE_CXX_FLAGS_RELEASE "-O3 -ftree-vectorize -fopt-info-vec")
 set(CMAKE_CXX_FLAGS -pthread)
 set(THREADS_PREFER_PTHREAD_FLAG ON)
 
-add_executable(LoF main.cpp GoLSeq.h)
+add_executable(LoF main.cpp GoLSeq.h GoLThread.h)
 
 target_link_libraries(LoF
         PUBLIC

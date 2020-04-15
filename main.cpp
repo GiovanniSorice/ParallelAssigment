@@ -2,6 +2,8 @@
 #include <chrono>
 #include <omp.h>
 #include "GoLSeq.h"
+#include "GoLThread.h"
+
 int main(int argc, char *argv[]) {
 
   if (argc == 1) {
@@ -18,11 +20,13 @@ int main(int argc, char *argv[]) {
 
   GoLSeq seq(nStep, nRow, nCol, seed);
   seq.PrintStates();
+  /*
   auto tstart = std::chrono::high_resolution_clock::now();
   seq.Run();
   auto elapsed = std::chrono::high_resolution_clock::now() - tstart;
   auto msec = std::chrono::duration_cast<std::chrono::milliseconds>(elapsed).count();
   std::cout << "Spent " << msec << " msecs with " << nw << " threads " << std::endl;
+   */
   seq.RunWithTime();
 
 }

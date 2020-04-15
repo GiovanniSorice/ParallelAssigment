@@ -14,6 +14,10 @@ class GoLSeq {
   const int nCol;
   const int nRow;
  public:
+  ~GoLSeq() {
+    delete (states);
+    delete (statesTmp);
+  }
   GoLSeq(const int userStep, const int userRow, const int userCol, const int seed)
       : nCol(userCol),
         nRow(userRow),
@@ -61,10 +65,8 @@ class GoLSeq {
         }
 
       }
+      std::swap(states, statesTmp);
       //PrintStates();
-      bool *tmp = statesTmp;
-      statesTmp = states;
-      states = tmp;
     }
 
   }
