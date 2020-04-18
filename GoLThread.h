@@ -5,6 +5,7 @@
 #define LOF__GOLTHREAD_H_
 #include <thread>
 #include <deque>
+#include <cmath>
 
 class GoLThread {
 
@@ -14,15 +15,16 @@ class GoLThread {
   const int nStep;
   const int nCol;
   const int nRow;
-  const int nWorker = 8;
+  const int nWorker;
 
  public:
   ~GoLThread() {
     delete (states);
     delete (statesTmp);
   }
-  GoLThread(const int userStep, const int userRow, const int userCol, const int seed)
-      : nCol(userCol),
+  GoLThread(const int userStep, const int userRow, const int userCol, const int seed, const int nw)
+      : nWorker(nw),
+        nCol(userCol),
         nRow(userRow),
         states(new bool[userRow * userCol]{}),
         statesTmp(new bool[userRow * userCol]{}),
@@ -46,15 +48,34 @@ class GoLThread {
   }
 
   void Run() {
-    std::deque<std::thread *> coda;
-    //TODO: Come spartisco il lavoro?
+    std::deque < std::thread * > coda;
+
+    int splitElem = std::floor((float) (nCol) * (float) (nRow - 2) / (float) nWorker);
+    int remaining;
+    int index;
     for (int k = 0; k < nStep; ++k) {
       // create threads
+      index = nCol;
+      remaining = (nCol) * (nRow - 2) % nWorker;
       for (int i = 0; i < nWorker; ++i) {
-        coda.push_back(new std::thread(RunParallel, states, statesTmp, nCol, 1, 100, 1, 100));
+
+        coda.emplace_back(new std::thread(RunParallel,
+                                          states,
+                                          statesTmp,
+                                          nCol,
+                                          index,
+                                          splitElem + (remaining ? 1 : 0)));
+        index += splitElem + (remaining ? 1 : 0);
+
+        if (remaining)
+          remaining--;
+
+        //Da aggiungere possibilimente un controllo che non crea thread in eccesso
       }
-      for (auto it = coda.begin(); it != coda.end(); ++it) {
-        (*it)->join();
+
+      for (auto &it : coda) {
+        if (it->joinable())
+          it->join();
       }
 
       while (!coda.empty()) {
@@ -62,10 +83,9 @@ class GoLThread {
         coda.pop_back();
       }
 
-
-
-      //PrintStates();
       std::swap(states, statesTmp);
+      PrintStates();
+
     }
   }
 
@@ -74,20 +94,45 @@ class GoLThread {
     Run();
     auto elapsed = std::chrono::high_resolution_clock::now() - tstart;
     auto msec = std::chrono::duration_cast<std::chrono::milliseconds>(elapsed).count();
-    std::cout << "Spent " << msec << " msecs with " << std::endl;
+    //std::cout << "Spent " << msec << " msecs with " << std::endl;
   }
 
   static void RunParallel(bool *passedStates,
                           bool *passedStatesTmp,
                           const int passedNCol,
-                          const int startRow,
-                          const int endRow,
-                          const int startCol,
-                          const int endCol) {
+                          const int index,
+                          const int stepElem
+  ) {
+
     int sum;
-    std::cout << startRow << std::endl;
-    for (int row = startRow; row < endRow - 1; ++row) {
-      for (int col = startCol; col < endCol - 1; ++col) {
+    //std::cout << index << " " << stepElem << " " << std::endl;
+
+    for (int i = index; i < index + stepElem; ++i) {
+      if (!(i % passedNCol) || (i % passedNCol) == (passedNCol - 1))
+        continue;
+
+      //std::cout << i << " " << std::endl;
+
+      sum = passedStates[i - passedNCol - 1] +
+          passedStates[i - passedNCol] +
+          passedStates[i - passedNCol + 1] +
+          passedStates[i - 1] +
+          passedStates[i + 1] +
+          passedStates[i + passedNCol - 1] +
+          passedStates[i + passedNCol] +
+          passedStates[i + passedNCol + 1];
+
+      //std::cout << i << " " << sum << " " << std::endl;
+
+      if (sum == 3) {
+        passedStatesTmp[i] = true;
+      } else passedStatesTmp[i] = sum == 2 && passedStates[i];
+    }
+
+
+/*
+    for (int row = startRow; row < endRow; ++row) {
+      for (int col = startCol; col < endCol; ++col) {
         sum = passedStates[(row - 1) * passedNCol + col - 1] +
             passedStates[(row - 1) * passedNCol + col] +
             passedStates[(row - 1) * passedNCol + col + 1] +
@@ -97,15 +142,12 @@ class GoLThread {
             passedStates[(row + 1) * passedNCol + col] +
             passedStates[(row + 1) * passedNCol + col + 1];
 
-        if (sum > 3 || sum < 2) {
-          passedStatesTmp[row * passedNCol + col] = false;
-        } else {
+        if (sum == 3) {
           passedStatesTmp[row * passedNCol + col] = true;
-        }
+        } else passedStatesTmp[row * passedNCol + col] = sum == 2 && passedStates[row * passedNCol + col];
       }
-
     }
-
+    */
   }
 };
 

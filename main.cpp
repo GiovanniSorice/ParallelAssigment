@@ -18,7 +18,9 @@ int main(int argc, char *argv[]) {
   int const nCol = atoi(argv[4]);
   int nw = atoi(argv[5]);
 
-  GoLSeq seq(nStep, nRow, nCol, seed);
+  GoLThread seq(nStep, nRow, nCol, seed, nw);
+  //GoLSeq seq(nStep, nRow, nCol, seed);
+
   seq.PrintStates();
   /*
   auto tstart = std::chrono::high_resolution_clock::now();

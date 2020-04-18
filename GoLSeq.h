@@ -57,16 +57,14 @@ class GoLSeq {
               states[(row + 1) * nCol + col] +
               states[(row + 1) * nCol + col + 1];
 
-          if (sum > 3 || sum < 2) {
-            statesTmp[row * nCol + col] = false;
-          } else {
+          if (sum == 3) {
             statesTmp[row * nCol + col] = true;
-          }
+          } else statesTmp[row * nCol + col] = (sum == 2 && states[row * nCol + col]);
         }
 
       }
       std::swap(states, statesTmp);
-      //PrintStates();
+      PrintStates();
     }
 
   }
