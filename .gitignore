@@ -10,3 +10,19 @@ cmake-build-run/
 cmake-build-release-remote-host/
 
 cmake-build-release/
+
+cmake-build-debug-xionphi/
+
+cmake-build-debug_docker/
+
+cmake-build-release-xionphi/CMakeFiles/
+
+cmake-build-release-xionphi/
+
+cmake-build-release-ssh/CMakeFiles/
+
+cmake-build-release-debug/
+
+cmake-build-release-docker/
+
+cmake-build-release-ssh/

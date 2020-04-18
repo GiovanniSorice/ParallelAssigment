@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.13)
+cmake_minimum_required(VERSION 3.11)
 project(LoF VERSION 1.0.0 LANGUAGES CXX)
 
 find_package(OpenMP REQUIRED)
