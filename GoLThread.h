@@ -48,9 +48,9 @@ class GoLThread {
   }
 
   void Run() {
-    std::deque < std::thread * > coda;
+    std::deque<std::thread> coda;
 
-    int splitElem = std::floor((float) (nCol) * (float) (nRow - 2) / (float) nWorker);
+    int stepElem = std::floor((float) (nCol) * (float) (nRow - 2) / (float) nWorker);
     int remaining;
     int index;
     for (int k = 0; k < nStep; ++k) {
@@ -59,13 +59,13 @@ class GoLThread {
       remaining = (nCol) * (nRow - 2) % nWorker;
       for (int i = 0; i < nWorker; ++i) {
 
-        coda.emplace_back(new std::thread(RunParallel,
-                                          states,
-                                          statesTmp,
-                                          nCol,
-                                          index,
-                                          splitElem + (remaining ? 1 : 0)));
-        index += splitElem + (remaining ? 1 : 0);
+        coda.emplace_back(std::thread(RunParallel,
+                                      states,
+                                      statesTmp,
+                                      nCol,
+                                      index,
+                                      stepElem + (remaining ? 1 : 0)));
+        index += stepElem + (remaining ? 1 : 0);
 
         if (remaining)
           remaining--;
@@ -74,17 +74,14 @@ class GoLThread {
       }
 
       for (auto &it : coda) {
-        if (it->joinable())
-          it->join();
+        if (it.joinable())
+          it.join();
       }
 
-      while (!coda.empty()) {
-        delete (*coda.end());
-        coda.pop_back();
-      }
+      coda.clear();
 
       std::swap(states, statesTmp);
-      PrintStates();
+      //PrintStates();
 
     }
   }
@@ -94,7 +91,7 @@ class GoLThread {
     Run();
     auto elapsed = std::chrono::high_resolution_clock::now() - tstart;
     auto msec = std::chrono::duration_cast<std::chrono::milliseconds>(elapsed).count();
-    //std::cout << "Spent " << msec << " msecs with " << std::endl;
+    std::cout << "Spent " << msec << " msecs with " << std::endl;
   }
 
   static void RunParallel(bool *passedStates,
@@ -104,16 +101,12 @@ class GoLThread {
                           const int stepElem
   ) {
 
-    int sum;
-    //std::cout << index << " " << stepElem << " " << std::endl;
-
+    int sumNeighbours;
     for (int i = index; i < index + stepElem; ++i) {
       if (!(i % passedNCol) || (i % passedNCol) == (passedNCol - 1))
         continue;
 
-      //std::cout << i << " " << std::endl;
-
-      sum = passedStates[i - passedNCol - 1] +
+      sumNeighbours = passedStates[i - passedNCol - 1] +
           passedStates[i - passedNCol] +
           passedStates[i - passedNCol + 1] +
           passedStates[i - 1] +
@@ -122,32 +115,10 @@ class GoLThread {
           passedStates[i + passedNCol] +
           passedStates[i + passedNCol + 1];
 
-      //std::cout << i << " " << sum << " " << std::endl;
-
-      if (sum == 3) {
+      if (sumNeighbours == 3) {
         passedStatesTmp[i] = true;
-      } else passedStatesTmp[i] = sum == 2 && passedStates[i];
+      } else passedStatesTmp[i] = sumNeighbours == 2 && passedStates[i];
     }
-
-
-/*
-    for (int row = startRow; row < endRow; ++row) {
-      for (int col = startCol; col < endCol; ++col) {
-        sum = passedStates[(row - 1) * passedNCol + col - 1] +
-            passedStates[(row - 1) * passedNCol + col] +
-            passedStates[(row - 1) * passedNCol + col + 1] +
-            passedStates[row * passedNCol + col - 1] +
-            passedStates[row * passedNCol + col + 1] +
-            passedStates[(row + 1) * passedNCol + col - 1] +
-            passedStates[(row + 1) * passedNCol + col] +
-            passedStates[(row + 1) * passedNCol + col + 1];
-
-        if (sum == 3) {
-          passedStatesTmp[row * passedNCol + col] = true;
-        } else passedStatesTmp[row * passedNCol + col] = sum == 2 && passedStates[row * passedNCol + col];
-      }
-    }
-    */
   }
 };
 

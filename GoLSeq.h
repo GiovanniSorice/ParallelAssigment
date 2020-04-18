@@ -43,12 +43,12 @@ class GoLSeq {
   }
 
   void Run() {
-    int sum;
+    int sumNeighbours;
     for (int k = 0; k < nStep; ++k) {
       //std::cout << k << std::endl;
       for (int row = 1; row < nRow - 1; ++row) {
         for (int col = 1; col < nCol - 1; ++col) {
-          sum = states[(row - 1) * nCol + col - 1] +
+          sumNeighbours = states[(row - 1) * nCol + col - 1] +
               states[(row - 1) * nCol + col] +
               states[(row - 1) * nCol + col + 1] +
               states[row * nCol + col - 1] +
@@ -57,14 +57,14 @@ class GoLSeq {
               states[(row + 1) * nCol + col] +
               states[(row + 1) * nCol + col + 1];
 
-          if (sum == 3) {
+          if (sumNeighbours == 3) {
             statesTmp[row * nCol + col] = true;
-          } else statesTmp[row * nCol + col] = (sum == 2 && states[row * nCol + col]);
+          } else statesTmp[row * nCol + col] = (sumNeighbours == 2 && states[row * nCol + col]);
         }
 
       }
       std::swap(states, statesTmp);
-      PrintStates();
+      //PrintStates();
     }
 
   }

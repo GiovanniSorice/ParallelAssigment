@@ -26,3 +26,5 @@ cmake-build-release-debug/
 cmake-build-release-docker/
 
 cmake-build-release-ssh/
+
+cmake-build-debug-docker/
