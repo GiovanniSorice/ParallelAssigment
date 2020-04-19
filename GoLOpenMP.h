@@ -1,29 +1,32 @@
 //
-// Created by gs1010 on 15/04/20.
+// Created by gs1010 on 18/04/20.
 //
 #include <chrono>
 
-#ifndef LOF__GOLSEQ_H_
-#define LOF__GOLSEQ_H_
+#ifndef LOF__GOLOPENMP_H_
+#define LOF__GOLOPENMP_H_
 
-class GoLSeq {
+class GoLOpenMP {
  private:
   bool *states;
   bool *statesTmp;
   const int nStep;
   const int nCol;
   const int nRow;
+  const int nWorker;
+
  public:
-  ~GoLSeq() {
+  ~GoLOpenMP() {
     delete (states);
     delete (statesTmp);
   }
-  GoLSeq(const int userStep, const int userRow, const int userCol, const int seed)
+  GoLOpenMP(const int userStep, const int userRow, const int userCol, const int seed, const int nw)
       : nCol(userCol),
         nRow(userRow),
         states(new bool[userRow * userCol]{}),
         statesTmp(new bool[userRow * userCol]{}),
-        nStep(userStep) {
+        nStep(userStep),
+        nWorker(nw) {
     std::srand(seed);
     // Random initialization junping the border
     for (int row = 1; row < nRow - 1; ++row) {
@@ -46,7 +49,9 @@ class GoLSeq {
     int sumNeighbours;
     for (int k = 0; k < nStep; ++k) {
       //std::cout << k << std::endl;
+#pragma omp parallel num_threads(nWorker)
       for (int row = 1; row < nRow - 1; ++row) {
+#pragma omp parallel num_threads(nWorker)
         for (int col = 1; col < nCol - 1; ++col) {
           sumNeighbours = states[(row - 1) * nCol + col - 1] +
               states[(row - 1) * nCol + col] +
@@ -77,6 +82,7 @@ class GoLSeq {
     auto msec = std::chrono::duration_cast<std::chrono::milliseconds>(elapsed).count();
     std::cout << "Spent " << msec << " msecs with " << std::endl;
   }
+
 };
 
-#endif //LOF__GOLSEQ_H_
+#endif //LOF__GOLOPENMP_H_
