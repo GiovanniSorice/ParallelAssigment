@@ -22,7 +22,7 @@ class GoLPool {
   std::vector<std::thread *> workers{};
   std::mutex m;
   std::condition_variable cv;
-  std::atomic<int> counter = 0;
+  std::atomic<int> counter;
   taskQueue<int> taskq;
   bool on = true;
 
@@ -78,7 +78,8 @@ class GoLPool {
         states(new bool[userRow * userCol]{}),
         statesTmp(new bool[userRow * userCol]{}),
         nStep(userStep),
-        workers(nw) {
+        workers(nw),
+        counter(0) {
     std::srand(seed);
     // Random initialization junping the border
     for (int row = 1; row < nRow - 1; ++row) {

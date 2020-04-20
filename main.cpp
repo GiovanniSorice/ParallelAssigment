@@ -23,37 +23,37 @@ int main(int argc, char *argv[]) {
   /**
    Sequential run
    */
-  /*
- GoLSeq seq(nStep, nRow, nCol, seed);
- seq.PrintStates();
- seq.RunWithTime();
- */
+
+  GoLSeq seq(nStep, nRow, nCol, seed);
+  seq.PrintStates();
+  seq.RunWithTime();
+
 
   /**
     Parallel fork-join implementation run
     */
-  /*
- GoLThread parT(nStep, nRow, nCol, seed, nw);
- parT.PrintStates();
- parT.RunWithTime();
- */
+
+  GoLThread parT(nStep, nRow, nCol, seed, nw);
+  parT.PrintStates();
+  parT.RunWithTime();
+
 
   /**
     Parallel OpenMP implementation run
     */
-  /*
+
   GoLOpenMP parOMP(nStep, nRow, nCol, seed, nw);
   parOMP.PrintStates();
   parOMP.RunWithTime();
-  */
+
 
   /**
   Parallel Pool of standard thread implementation run
   */
-  /*
+
   GoLPool parPool(nStep, nRow, nCol, seed, nw);
   parPool.PrintStates();
   parPool.RunWithTime();
-   */
+
 }
 
