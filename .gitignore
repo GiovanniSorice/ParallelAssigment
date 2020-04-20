@@ -28,3 +28,11 @@ cmake-build-release-docker/
 cmake-build-release-ssh/
 
 cmake-build-debug-docker/
+
+report/template_Report.aux
+
+report/template_Report.log
+
+report/template_Report.out
+
+report/template_Report.synctex.gz
