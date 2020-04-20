@@ -44,6 +44,7 @@ class GoLSeq {
 
   void Run() {
     int sumNeighbours;
+
     for (int k = 0; k < nStep; ++k) {
       //std::cout << k << std::endl;
       for (int row = 1; row < nRow - 1; ++row) {
@@ -57,9 +58,7 @@ class GoLSeq {
               states[(row + 1) * nCol + col] +
               states[(row + 1) * nCol + col + 1];
 
-          if (sumNeighbours == 3) {
-            statesTmp[row * nCol + col] = true;
-          } else statesTmp[row * nCol + col] = sumNeighbours == 2 && states[row * nCol + col];
+          statesTmp[row * nCol + col] = (sumNeighbours == 3) || (sumNeighbours == 2 && states[row * nCol + col]);
 
         }
 
@@ -75,7 +74,7 @@ class GoLSeq {
     Run();
     auto elapsed = std::chrono::high_resolution_clock::now() - tstart;
     auto msec = std::chrono::duration_cast<std::chrono::milliseconds>(elapsed).count();
-    std::cout << "Spent " << msec << " msecs with " << std::endl;
+    std::cout << -1 << " " << msec << " " << nCol << " " << nRow << std::endl;
   }
 };
 

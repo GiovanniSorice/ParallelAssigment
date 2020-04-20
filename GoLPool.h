@@ -6,6 +6,7 @@
 #include <mutex>
 #include <condition_variable>
 #include <atomic>
+
 #include "taskQueue.h"
 
 #ifndef LOF__GOLPOOL_H_
@@ -24,6 +25,40 @@ class GoLPool {
   std::atomic<int> counter = 0;
   taskQueue<int> taskq;
   bool on = true;
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wmissing-noreturn"
+  void RunParallel(/*bool *states,
+                          bool *passedStatesTmp,
+                          taskQueue<int> &passedTaskq,
+                          std::mutex &passedM,
+                          std::atomic<int> &passedCounter,
+                          std::condition_variable &passedCv,
+                          const int passedNCol*/
+  ) {
+    int sumNeighbours;
+    while (true) {
+      auto index = taskq.pop();
+      if (index == -1)
+        return;
+
+      //std::cout << index << std::endl;
+      sumNeighbours = states[index - nCol - 1] +
+          states[index - nCol] +
+          states[index - nCol + 1] +
+          states[index - 1] +
+          states[index + 1] +
+          states[index + nCol - 1] +
+          states[index + nCol] +
+          states[index + nCol + 1];
+
+      statesTmp[index] = (sumNeighbours == 3) || (sumNeighbours == 2 && states[index]);
+
+      std::lock_guard<std::mutex> lk(m);
+      counter--;
+      cv.notify_all();
+    }
+  }
 
  public:
   ~GoLPool() {
@@ -94,43 +129,7 @@ class GoLPool {
     Run();
     auto elapsed = std::chrono::high_resolution_clock::now() - tstart;
     auto msec = std::chrono::duration_cast<std::chrono::milliseconds>(elapsed).count();
-    std::cout << "Spent " << msec << " msecs with " << std::endl;
-  }
-
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wmissing-noreturn"
-  void RunParallel(/*bool *states,
-                          bool *passedStatesTmp,
-                          taskQueue<int> &passedTaskq,
-                          std::mutex &passedM,
-                          std::atomic<int> &passedCounter,
-                          std::condition_variable &passedCv,
-                          const int passedNCol*/
-  ) {
-    int sumNeighbours;
-    while (true) {
-      auto index = taskq.pop();
-      if (index == -1)
-        return;
-
-      //std::cout << index << std::endl;
-      sumNeighbours = states[index - nCol - 1] +
-          states[index - nCol] +
-          states[index - nCol + 1] +
-          states[index - 1] +
-          states[index + 1] +
-          states[index + nCol - 1] +
-          states[index + nCol] +
-          states[index + nCol + 1];
-
-      if (sumNeighbours == 3) {
-        statesTmp[index] = true;
-      } else statesTmp[index] = sumNeighbours == 2 && states[index];
-
-      std::lock_guard<std::mutex> lk(m);
-      counter--;
-      cv.notify_all();
-    }
+    std::cout << nWorker << " " << msec << " " << nCol << " " << nRow << std::endl;
   }
 
 #pragma clang diagnostic pop

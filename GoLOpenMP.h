@@ -47,11 +47,13 @@ class GoLOpenMP {
 
   void Run() {
     int sumNeighbours;
+    auto tstart = std::chrono::high_resolution_clock::now();
+
     for (int k = 0; k < nStep; ++k) {
       //std::cout << k << std::endl;
-#pragma omp parallel num_threads(nWorker)
+#pragma omp parallel for num_threads(nWorker)
       for (int row = 1; row < nRow - 1; ++row) {
-#pragma omp parallel num_threads(nWorker)
+#pragma omp parallel for num_threads(nWorker)
         for (int col = 1; col < nCol - 1; ++col) {
           sumNeighbours = states[(row - 1) * nCol + col - 1] +
               states[(row - 1) * nCol + col] +
@@ -62,9 +64,7 @@ class GoLOpenMP {
               states[(row + 1) * nCol + col] +
               states[(row + 1) * nCol + col + 1];
 
-          if (sumNeighbours == 3) {
-            statesTmp[row * nCol + col] = true;
-          } else statesTmp[row * nCol + col] = sumNeighbours == 2 && states[row * nCol + col];
+          statesTmp[row * nCol + col] = (sumNeighbours == 3) || (sumNeighbours == 2 && states[row * nCol + col]);
 
         }
 
@@ -72,15 +72,18 @@ class GoLOpenMP {
       std::swap(states, statesTmp);
       //PrintStates();
     }
+    auto elapsed = std::chrono::high_resolution_clock::now() - tstart;
+    auto msec = std::chrono::duration_cast<std::chrono::milliseconds>(elapsed).count();
+    std::cout << nWorker << " " << msec << " " << nCol << " " << nRow << std::endl;
 
   }
 
   void RunWithTime() {
-    auto tstart = std::chrono::high_resolution_clock::now();
+    //auto tstart = std::chrono::high_resolution_clock::now();
     Run();
-    auto elapsed = std::chrono::high_resolution_clock::now() - tstart;
-    auto msec = std::chrono::duration_cast<std::chrono::milliseconds>(elapsed).count();
-    std::cout << "Spent " << msec << " msecs with " << std::endl;
+    //auto elapsed = std::chrono::high_resolution_clock::now() - tstart;
+    //auto msec = std::chrono::duration_cast<std::chrono::milliseconds>(elapsed).count();
+    //std::cout << nWorker << " " << msec << " " << nCol << " " << nRow << std::endl;
   }
 
 };

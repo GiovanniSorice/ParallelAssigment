@@ -17,6 +17,31 @@ class GoLThread {
   const int nRow;
   const int nWorker;
 
+  static void RunParallel(bool *passedStates,
+                          bool *passedStatesTmp,
+                          const int passedNCol,
+                          const int index,
+                          const int stepElem
+  ) {
+
+    int sumNeighbours;
+    for (int i = index; i < index + stepElem; ++i) {
+      if (!(i % passedNCol) || (i % passedNCol) == (passedNCol - 1))
+        continue;
+
+      sumNeighbours = passedStates[i - passedNCol - 1] +
+          passedStates[i - passedNCol] +
+          passedStates[i - passedNCol + 1] +
+          passedStates[i - 1] +
+          passedStates[i + 1] +
+          passedStates[i + passedNCol - 1] +
+          passedStates[i + passedNCol] +
+          passedStates[i + passedNCol + 1];
+
+      passedStatesTmp[i] = sumNeighbours == 3 || (sumNeighbours == 2 && passedStates[i]);
+    }
+  }
+
  public:
   ~GoLThread() {
     delete (states);
@@ -91,35 +116,9 @@ class GoLThread {
     Run();
     auto elapsed = std::chrono::high_resolution_clock::now() - tstart;
     auto msec = std::chrono::duration_cast<std::chrono::milliseconds>(elapsed).count();
-    std::cout << "Spent " << msec << " msecs with " << std::endl;
+    std::cout << nWorker << " " << msec << " " << nCol << " " << nRow << std::endl;
   }
 
-  static void RunParallel(bool *passedStates,
-                          bool *passedStatesTmp,
-                          const int passedNCol,
-                          const int index,
-                          const int stepElem
-  ) {
-
-    int sumNeighbours;
-    for (int i = index; i < index + stepElem; ++i) {
-      if (!(i % passedNCol) || (i % passedNCol) == (passedNCol - 1))
-        continue;
-
-      sumNeighbours = passedStates[i - passedNCol - 1] +
-          passedStates[i - passedNCol] +
-          passedStates[i - passedNCol + 1] +
-          passedStates[i - 1] +
-          passedStates[i + 1] +
-          passedStates[i + passedNCol - 1] +
-          passedStates[i + passedNCol] +
-          passedStates[i + passedNCol + 1];
-
-      if (sumNeighbours == 3) {
-        passedStatesTmp[i] = true;
-      } else passedStatesTmp[i] = sumNeighbours == 2 && passedStates[i];
-    }
-  }
 };
 
 #endif //LOF__GOLTHREAD_H_

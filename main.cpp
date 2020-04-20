@@ -4,12 +4,13 @@
 #include "GoLSeq.h"
 #include "GoLThread.h"
 #include "GoLPool.h"
+#include "GoLOpenMP.h"
 
 int main(int argc, char *argv[]) {
 
   if (argc == 1) {
     std::cout << "Usage is " << argv[0]
-              << " numberOfIteration seed N M nw prova" << std::endl;
+              << " numberOfIteration seed N M nw" << std::endl;
     return (-1);
   }
 
@@ -19,10 +20,10 @@ int main(int argc, char *argv[]) {
   int const nCol = atoi(argv[4]);
   int nw = atoi(argv[5]);
 
-  GoLThread parT(nStep, nRow, nCol, seed, nw);
-  GoLSeq seq(nStep, nRow, nCol, seed);
-  GoLThread parOMP(nStep, nRow, nCol, seed, nw);
-  GoLPool parPool(nStep, nRow, nCol, seed, nw);
+  //GoLSeq seq(nStep, nRow, nCol, seed);
+  //GoLThread parT(nStep, nRow, nCol, seed, nw);
+  GoLOpenMP parOMP(nStep, nRow, nCol, seed, nw);
+  //GoLPool parPool(nStep, nRow, nCol, seed, nw);
   //seq.PrintStates();
   /*
   auto tstart = std::chrono::high_resolution_clock::now();
@@ -32,10 +33,9 @@ int main(int argc, char *argv[]) {
   std::cout << "Spent " << msec << " msecs with " << nw << " threads " << std::endl;
    */
 
-  seq.RunWithTime();
-  parT.RunWithTime();
+  //seq.RunWithTime();
+  //parT.RunWithTime();
   parOMP.RunWithTime();
-  parPool.RunWithTime();
-
+  //parPool.RunWithTime();
 }
 
