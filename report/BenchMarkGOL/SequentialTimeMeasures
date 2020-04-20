@@ -1,0 +1,35 @@
+SpeedUp:  
+
+500x500 Sequential ms time: 65
+
+1000x1000 Sequential ms time: 259 
+
+5000x5000 Sequential ms time: 6599
+
+10000x10000 Sequential ms time: 26386
+
+
+Scalability: 
+
+	500x500:
+		OpenMP: 73ms 
+		
+		C++ Threads: 152ms
+	
+	5000x5000:
+		OpenMP: 273ms
+		
+		C++ Threads: 618ms
+
+	5000x5000:
+		OpenMP: 6390ms
+		
+		C++ Threads: 14917ms
+	
+	10000x10000:
+		OpenMP: 25448ms
+		
+		C++ Threads: 60690ms
+
+
+
