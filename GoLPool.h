@@ -42,7 +42,6 @@ class GoLPool {
       if (index == -1)
         return;
 
-      //std::cout << index << std::endl;
       sumNeighbours = states[index - nCol - 1] +
           states[index - nCol] +
           states[index - nCol + 1] +
@@ -112,7 +111,7 @@ class GoLPool {
       std::unique_lock<std::mutex> lock(m);
       cv.wait(lock, [=]() { return counter == 0; });
       std::swap(states, statesTmp);
-      //PrintStates();
+      PrintStates();
 
     }
 
@@ -129,7 +128,8 @@ class GoLPool {
     Run();
     auto elapsed = std::chrono::high_resolution_clock::now() - tstart;
     auto msec = std::chrono::duration_cast<std::chrono::milliseconds>(elapsed).count();
-    std::cout << nWorker << " " << msec << " " << nCol << " " << nRow << std::endl;
+    std::cout << "Pool parallel implementation time " << msec << " msec number columns " << nCol << " number rows"
+              << nRow << " nWorker" << nWorker << std::endl;
   }
 
 #pragma clang diagnostic pop

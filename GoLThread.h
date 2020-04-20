@@ -24,12 +24,11 @@ class GoLThread {
                           const int stepElem
   ) {
 
-    int sumNeighbours;
     for (int i = index; i < index + stepElem; ++i) {
       if (!(i % passedNCol) || (i % passedNCol) == (passedNCol - 1))
         continue;
 
-      sumNeighbours = passedStates[i - passedNCol - 1] +
+      const int sumNeighbours = passedStates[i - passedNCol - 1] +
           passedStates[i - passedNCol] +
           passedStates[i - passedNCol + 1] +
           passedStates[i - 1] +
@@ -106,7 +105,7 @@ class GoLThread {
       coda.clear();
 
       std::swap(states, statesTmp);
-      //PrintStates();
+      PrintStates();
 
     }
   }
@@ -116,7 +115,9 @@ class GoLThread {
     Run();
     auto elapsed = std::chrono::high_resolution_clock::now() - tstart;
     auto msec = std::chrono::duration_cast<std::chrono::milliseconds>(elapsed).count();
-    std::cout << nWorker << " " << msec << " " << nCol << " " << nRow << std::endl;
+    std::cout << "fork-join parallel implementation time " << msec << " msec number columns " << nCol << " number rows"
+              << nRow
+              << " nWorker" << nWorker << std::endl;
   }
 
 };

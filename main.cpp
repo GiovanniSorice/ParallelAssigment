@@ -20,22 +20,40 @@ int main(int argc, char *argv[]) {
   int const nCol = atoi(argv[4]);
   int nw = atoi(argv[5]);
 
-  //GoLSeq seq(nStep, nRow, nCol, seed);
-  //GoLThread parT(nStep, nRow, nCol, seed, nw);
-  GoLOpenMP parOMP(nStep, nRow, nCol, seed, nw);
-  //GoLPool parPool(nStep, nRow, nCol, seed, nw);
-  //seq.PrintStates();
-  /*
-  auto tstart = std::chrono::high_resolution_clock::now();
-  seq.Run();
-  auto elapsed = std::chrono::high_resolution_clock::now() - tstart;
-  auto msec = std::chrono::duration_cast<std::chrono::milliseconds>(elapsed).count();
-  std::cout << "Spent " << msec << " msecs with " << nw << " threads " << std::endl;
+  /**
+   Sequential run
    */
+  /*
+ GoLSeq seq(nStep, nRow, nCol, seed);
+ seq.PrintStates();
+ seq.RunWithTime();
+ */
 
-  //seq.RunWithTime();
-  //parT.RunWithTime();
+  /**
+    Parallel fork-join implementation run
+    */
+  /*
+ GoLThread parT(nStep, nRow, nCol, seed, nw);
+ parT.PrintStates();
+ parT.RunWithTime();
+ */
+
+  /**
+    Parallel OpenMP implementation run
+    */
+  /*
+  GoLOpenMP parOMP(nStep, nRow, nCol, seed, nw);
+  parOMP.PrintStates();
   parOMP.RunWithTime();
-  //parPool.RunWithTime();
+  */
+
+  /**
+  Parallel Pool of standard thread implementation run
+  */
+  /*
+  GoLPool parPool(nStep, nRow, nCol, seed, nw);
+  parPool.PrintStates();
+  parPool.RunWithTime();
+   */
 }
 

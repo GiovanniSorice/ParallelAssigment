@@ -46,7 +46,6 @@ class GoLSeq {
     int sumNeighbours;
 
     for (int k = 0; k < nStep; ++k) {
-      //std::cout << k << std::endl;
       for (int row = 1; row < nRow - 1; ++row) {
         for (int col = 1; col < nCol - 1; ++col) {
           sumNeighbours = states[(row - 1) * nCol + col - 1] +
@@ -64,7 +63,7 @@ class GoLSeq {
 
       }
       std::swap(states, statesTmp);
-      //PrintStates();
+      PrintStates();
     }
 
   }
@@ -74,7 +73,7 @@ class GoLSeq {
     Run();
     auto elapsed = std::chrono::high_resolution_clock::now() - tstart;
     auto msec = std::chrono::duration_cast<std::chrono::milliseconds>(elapsed).count();
-    std::cout << -1 << " " << msec << " " << nCol << " " << nRow << std::endl;
+    std::cout << "seq time " << " " << msec << " msec number columns " << nCol << " number rows " << nRow << std::endl;
   }
 };
 

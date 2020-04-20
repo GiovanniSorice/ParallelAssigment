@@ -2,6 +2,7 @@
 // Created by gs1010 on 18/04/20.
 //
 #include <chrono>
+#include <omp.h>
 
 #ifndef LOF__GOLOPENMP_H_
 #define LOF__GOLOPENMP_H_
@@ -28,6 +29,7 @@ class GoLOpenMP {
         nStep(userStep),
         nWorker(nw) {
     std::srand(seed);
+
     // Random initialization junping the border
     for (int row = 1; row < nRow - 1; ++row) {
       for (int col = 1; col < nCol - 1; ++col) {
@@ -46,16 +48,13 @@ class GoLOpenMP {
   }
 
   void Run() {
-    int sumNeighbours;
-    auto tstart = std::chrono::high_resolution_clock::now();
 
-    for (int k = 0; k < nStep; ++k) {
-      //std::cout << k << std::endl;
+    for (int k = 0; k < nStep; k++) {
 #pragma omp parallel for num_threads(nWorker)
-      for (int row = 1; row < nRow - 1; ++row) {
+      for (int row = 1; row < nRow - 1; row++) {
 #pragma omp parallel for num_threads(nWorker)
-        for (int col = 1; col < nCol - 1; ++col) {
-          sumNeighbours = states[(row - 1) * nCol + col - 1] +
+        for (int col = 1; col < nCol - 1; col++) {
+          const int sumNeighbours = states[(row - 1) * nCol + col - 1] +
               states[(row - 1) * nCol + col] +
               states[(row - 1) * nCol + col + 1] +
               states[row * nCol + col - 1] +
@@ -70,20 +69,17 @@ class GoLOpenMP {
 
       }
       std::swap(states, statesTmp);
-      //PrintStates();
+      PrintStates();
     }
-    auto elapsed = std::chrono::high_resolution_clock::now() - tstart;
-    auto msec = std::chrono::duration_cast<std::chrono::milliseconds>(elapsed).count();
-    std::cout << nWorker << " " << msec << " " << nCol << " " << nRow << std::endl;
-
   }
 
   void RunWithTime() {
-    //auto tstart = std::chrono::high_resolution_clock::now();
+    auto tstart = std::chrono::high_resolution_clock::now();
     Run();
-    //auto elapsed = std::chrono::high_resolution_clock::now() - tstart;
-    //auto msec = std::chrono::duration_cast<std::chrono::milliseconds>(elapsed).count();
-    //std::cout << nWorker << " " << msec << " " << nCol << " " << nRow << std::endl;
+    auto elapsed = std::chrono::high_resolution_clock::now() - tstart;
+    auto msec = std::chrono::duration_cast<std::chrono::milliseconds>(elapsed).count();
+    std::cout << "OpenMP parallel implementation time " << msec << " msec number columns " << nCol << " number rows"
+              << nRow << " nWorker" << nWorker << std::endl;
   }
 
 };
