@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CMakeRunConfigurationManager" shouldGenerate="true" shouldDeleteObsolete="true">
+    <generated>
+      <config projectName="GoL" targetName="GoL" />
+    </generated>
+  </component>
+  <component name="CMakeSettings">
+    <configurations>
+      <configuration PROFILE_NAME="Debug" CONFIG_NAME="Debug" />
+      <configuration PROFILE_NAME="Release" CONFIG_NAME="Release" />
+    </configurations>
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="f0455aa9-3b0d-4fa4-9694-6d4db00e5108" name="Default Changelist" comment="" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ClangdSettings">
+    <option name="formatViaClangd" value="false" />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Release" />
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="OCFindUsagesOptions" text="true" ivars="false" properties="true" derivedClasses="false" />
+  <component name="ProjectId" id="1aE8LMExaPyF9LzNSpC4xGWVHIM" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="PropertiesComponent">
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../CMProject" />
+    <property name="settings.editor.selected.configurable" value="CMakeSettings" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager">
+    <configuration name="GoL" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS="3 30 10 10 8" PASS_PARENT_ENVS_2="true" PROJECT_NAME="GoL" TARGET_NAME="GoL" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="GoL" RUN_TARGET_NAME="GoL">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="f0455aa9-3b0d-4fa4-9694-6d4db00e5108" name="Default Changelist" comment="" />
+      <created>1586289335250</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1586289335250</updated>
+      <workItem from="1586289336478" duration="4450000" />
+      <workItem from="1586370678673" duration="2567000" />
+      <workItem from="1586373550936" duration="3061000" />
+      <workItem from="1586534223411" duration="3985000" />
+      <workItem from="1586616364272" duration="266000" />
+      <workItem from="1586616692713" duration="3249000" />
+      <workItem from="1586683484788" duration="956000" />
+      <workItem from="1586868420661" duration="2905000" />
+      <workItem from="1586958816996" duration="3291000" />
+      <workItem from="1586978657082" duration="7538000" />
+      <workItem from="1587127065105" duration="13424000" />
+      <workItem from="1587216068570" duration="1647000" />
+      <workItem from="1587217741530" duration="533000" />
+      <workItem from="1587218508872" duration="91000" />
+      <workItem from="1587218612721" duration="550000" />
+      <workItem from="1587219175827" duration="12014000" />
+      <workItem from="1587238184589" duration="6844000" />
+      <workItem from="1587245561352" duration="18000" />
+      <workItem from="1587245591811" duration="668000" />
+      <workItem from="1587289404275" duration="21194000" />
+      <workItem from="1587328555799" duration="165000" />
+      <workItem from="1587328733459" duration="967000" />
+      <workItem from="1587329713775" duration="4639000" />
+      <workItem from="1587366320023" duration="1370000" />
+      <workItem from="1587371782693" duration="1014000" />
+      <workItem from="1587372814403" duration="9522000" />
+      <workItem from="1587387292750" duration="2172000" />
+      <workItem from="1587395649660" duration="4000" />
+      <workItem from="1587409579319" duration="2100000" />
+      <workItem from="1587479191585" duration="19000" />
+    </task>
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/GoLPool.h</url>
+          <line>63</line>
+          <option name="timeStamp" value="30" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>
