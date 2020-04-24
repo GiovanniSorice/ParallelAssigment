@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PublishConfigData">
+    <serverData>
+      <paths name="Remote Host (06b03d02-5ab9-48e1-b61e-c73df8d243d3)">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/tmp/tmp.wwEGCzsiW1" local="$PROJECT_DIR$" />
+          </mappings>
+          <excludedPaths>
+            <excludedPath local="true" path="$PROJECT_DIR$/cmake-build-debug-remote-host" />
+            <excludedPath local="true" path="$PROJECT_DIR$/cmake-build-debug" />
+          </excludedPaths>
+        </serverdata>
+      </paths>
+      <paths name="XionPhi (68acfd44-4f26-4fbf-a41f-09f04d0c1af7)">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/tmp/tmp.pdkKb66N54" local="$PROJECT_DIR$" />
+          </mappings>
+          <excludedPaths>
+            <excludedPath local="true" path="$PROJECT_DIR$/cmake-build-release" />
+            <excludedPath local="true" path="$PROJECT_DIR$/cmake-build-debug" />
+            <excludedPath local="true" path="$PROJECT_DIR$/cmake-build-release-xionphi" />
+          </excludedPaths>
+        </serverdata>
+      </paths>
+    </serverData>
+  </component>
+</project>

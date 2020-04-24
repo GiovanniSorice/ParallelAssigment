@@ -1,0 +1,26 @@
+SpeedUp:  
+
+Time: 505.803 (ms) 1M
+Time: 13319.9 (ms) 10M
+Time: 142245 (ms) 40M
+
+
+Scalability: 
+
+	1M:
+		MW: 1082.55 ms
+		
+		PF: 530.339 ms
+
+	10M:
+		MW: 13334.8 ms
+		
+		PF: 13502.8 ms
+	
+	40M:
+		MW: 109047 ms
+		
+		PF: 98589.9 ms
+
+
+
