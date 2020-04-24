@@ -37,6 +37,7 @@ The executable can be found in the ```build/``` directory. Just run it with:
 The experience results are summarized in some plots that express the scalability and the speedup obtained running the code on the Xeon-phi machine.  
 The benchmark depicts two situations:
 * finding primes in the range 1~1mln and
+* finding primes in the range 1~10mln.  
 * finding primes in the range 1~40mln.  
 
 For each scenario I computed the execution time considering 1 up to 250 threads. Following are illustrated the plots with the metrics described for the 40mln (for more information look at [benchmark folder](https://github.com/GiovanniSorice/ParallelAssigment/tree/master/FindingPrimes/report/BenchMarkFP)). 
