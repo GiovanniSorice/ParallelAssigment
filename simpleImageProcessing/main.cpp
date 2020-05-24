@@ -23,13 +23,10 @@ int main(int argc, char *argv[]) {
   long nw = atoi(argv[2]);
   long repetition = atoi(argv[3]);
 
-  simpleImageProcessing a(imgPath, repetition);
-  //a.sequential();
-  //a.openMPImpl(nw);
+  simpleImageProcessing SIP(imgPath, repetition);
+  SIP.sequential();
+  SIP.openMPImpl(nw);
+  SIP.par(nw);
 
-  std::cout << "nw time(ms)" << std::endl;
-  for (int i = 1; i < 257; i++) {
-    a.par(i);
-  }
   return 0;
 }

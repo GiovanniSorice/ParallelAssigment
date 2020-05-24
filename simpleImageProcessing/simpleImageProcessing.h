@@ -46,19 +46,22 @@ class simpleImageProcessing {
     // apply GaussianBlur and Sobel
     for (int i = 0; i < filePaths.size(); i++) {
       // load images disk from their path
+
       images[i] = cv::imread(filePaths[i]);
+
       cv::GaussianBlur(images[i], images[i], cv::Size(3, 3), 0, 0, cv::BORDER_DEFAULT);
       cv::Sobel(images[i], images[i], -1, 1, 1);
-      // save images
+
       std::string res = "img/" + std::to_string(i) + ".jpg";
       cv::imwrite(res, images[i]);
+      // save images
     }
-
     auto end = std::chrono::system_clock::now();
     auto elapsed = end - start;
-    std::cout << "Total time: "
+    std::cout << "Total sequential time: "
               << std::chrono::duration_cast<std::chrono::milliseconds>(elapsed).count() << "ms"
               << std::endl;
+
   };
   void par(const long nw) {
     // declare image containers
@@ -68,18 +71,18 @@ class simpleImageProcessing {
     long stepElem = std::floor((float) (filePaths.size()) / (float) nw);
     long remaining = filePaths.size() % nw;
     long start = 0;
-    long end = stepElem;
+    long end = 0;
+
     for (int i = 0; i < nw; ++i) {
+      start = end;
+      end += stepElem + (remaining ? 1 : 0);
+      if (remaining)
+        remaining--;
 
       coda.emplace_back(std::thread(&simpleImageProcessing::RunParallel,
                                     start,
-                                    end + (remaining ? 1 : 0), &filePaths));
+                                    end, &filePaths));
 
-      start = end;
-      end += stepElem + (remaining ? 1 : 0);
-
-      if (remaining)
-        remaining--;
     }
 
     for (auto &it : coda) {
@@ -89,7 +92,7 @@ class simpleImageProcessing {
 
     auto endTime = std::chrono::system_clock::now();
     auto elapsed = endTime - startTime;
-    std::cout << nw << " "
+    std::cout << "Number worker: " << nw << " Total parallel time with c++ thread: "
               << std::chrono::duration_cast<std::chrono::milliseconds>(elapsed).count()
               << std::endl;
   };
@@ -114,7 +117,7 @@ class simpleImageProcessing {
 
     auto end = std::chrono::system_clock::now();
     auto elapsed = end - start;
-    std::cout << nw << " "
+    std::cout << "Number worker: " << nw << " Total parallel time with OpenMP: "
               << std::chrono::duration_cast<std::chrono::milliseconds>(elapsed).count()
               << std::endl;
 
