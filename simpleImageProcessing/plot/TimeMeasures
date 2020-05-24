@@ -1,0 +1,12 @@
+SpeedUp:  
+
+300  Sequential ms time: 79278
+
+
+Scalability: 
+
+	300 images:
+		OpenMP: 81054ms 
+		
+		C++ Threads: 80045ms
+	
