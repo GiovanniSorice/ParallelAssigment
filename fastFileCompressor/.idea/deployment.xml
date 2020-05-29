@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PublishConfigData">
+    <serverData>
+      <paths name="XionPhi (68acfd44-4f26-4fbf-a41f-09f04d0c1af7)">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/tmp/tmp.HSo8r5MrCu" local="$PROJECT_DIR$" />
+          </mappings>
+          <excludedPaths>
+            <excludedPath local="true" path="$PROJECT_DIR$/cmake-build-debug-xionphi" />
+          </excludedPaths>
+        </serverdata>
+      </paths>
+    </serverData>
+  </component>
+</project>
